@@ -1,0 +1,50 @@
+FID_Alabam,MatchType,NumMatch,PrecinctNu,Precinct,Address,City,Zip,County,State,FLD_ZONE,ZONE_SUBTY,polling_place_id,longitude,latitude
+325,ExactMatch,Exact,210,Pintlala Fire Department,250 Federal Rd.,Hope Hull,36043,Montgomery,Alabama,AE,FLOODWAY,0329,-86.38694645000001,32.17635431999996
+347,ExactMatch,Rooftop,502,Snowdoun Volunteer Fire Department,219 Hobbie Rd.,Montgomery,36105,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0332,-86.29187011999996,32.24235915999999
+324,ExactMatch,Rooftop,209,First Southern Baptist Church,1125 Wasden Rd.,Hope Hull,36043,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0333,-86.38977050999999,32.257884980000036
+320,ExactMatch,Rooftop,205,Southlawn Baptist Church,5340 Mobile Hwy.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0334,-86.35089874,32.298767090000005
+321,ExactMatch,Rooftop,206,C. Thomas Ventures / Event Center,3360 Selma Hwy.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0335,-86.38169861000003,32.30923462000003
+319,ExactMatch,Rooftop,204,AFED Conference Center,150 E. Fleming Rd.,Montgomery,36105,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0336,-86.30213164999999,32.32212448000002
+316,ExactMatch,Rooftop,201,St. Paul AME Church,706 E. Patton Ave.,Montgomery,36111,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0337,-86.29456329000003,32.33313370000001
+317,ExactMatch,Rooftop,202,Beulah Baptist Church,3703 Rosa L. Parks Ave.,Montgomery,36105,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0338,-86.31581116000002,32.33817673000001
+333,ExactMatch,Rooftop,401,St. James Baptist Church,3424 S. Court St.,Montgomery,36105,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0339,-86.30905151000002,32.34590912000003
+326,ExactMatch,Rooftop,211,Rufus Lewis Library,3095 Mobile Hwy.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0340,-86.33810425,32.34717177999997
+318,ExactMatch,Rooftop,203,Hayneville Road Community Center,3315 Hayneville Rd.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0341,-86.35552216,32.34832381999998
+323,ExactMatch,Rooftop,208,Stonetank Antioch Baptist Church / Fellowship Hall,6515 Old Selma Rd.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0342,-86.45275116,32.350418089999984
+309,ExactMatch,Rooftop,101,Drum Theater / Huntingdon College,1125 E. Fairview Ave.,Montgomery,36106,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0343,-86.28971100000001,32.35274505999996
+334,ExactMatch,Rooftop,402,McIntyre Community Center,1240 Hugh St.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0344,-86.33204650999998,32.35980987999999
+335,ExactMatch,Rooftop,403,Cleveland Ave. YMCA,1201 Rosa L. Parks Ave.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0345,-86.31629181000001,32.36057280999997
+336,ExactMatch,Rooftop,404,Alabama State University / Acadome,1595 Robert C. Hatch Dr.,Montgomery,36106,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0346,-86.293396,32.36199187999997
+337,DirectionPrefixRemoved,Exact,405,Houston Hills Community Center,207 N. Hall St.,Montgomery,36104,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0347,-86.29159999999999,32.37740000000004
+348,ExactMatch,Approx,503,Lapine Baptist Church,164 Webster St.,Lapine,36046,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0348,-86.35360000000004,32.380000000000045
+339,ExactMatch,Exact,407,"Hilton L. ""Tracy"" Larkin Community Center",814 Claremont Ave.,Montgomery,36107,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0349,-86.27848471,32.38995916000002
+322,ExactMatch,Exact,207,Hunter Station Community Center,20 Melton St.,Montgomery,36108,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0350,-86.39179999999996,32.39174204000001
+338,ExactMatch,Rooftop,406,Newtown Community Center,1765 N. Decatur St.,Montgomery,36104,Montgomery,Alabama,X,0.2 PCT ANNUAL CHANCE FLOOD HAZARD,0351,-86.29542541999996,32.39638138
+340,ExactMatch,Rooftop,408,Highland Gardens Community Center,2805 Willena Ave.,Montgomery,36107,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0352,-86.27957915999995,32.399444579999965
+341,KnownAlternateName,Exact,409,Chisholm Community Center,545 Vandiver Blvd.,Montgomery,36110,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0353,-86.27910000000001,32.41759999999997
+342,ExactMatch,Approx,410,Sheridan Heights Community Center,3501 Faro Dr.,Montgomery,36110,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0354,-86.28440000000005,32.43419999999998
+343,ExactMatch,Rooftop,411,Union Academy Baptist Church,4748 Lower Wetumpka Rd.,Montgomery,36110,Montgomery,Alabama,AE,,0355,-86.26647186000001,32.44190216
+352,KnownAlternateName,Exact,507,Dublin Fire Station,8898 State Hwy. 94,Ramer,36069,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0357,-86.16610000000003,32.037400000000034
+349,KnownAlternateName,Exact,504,Ramer Public Library,5444 State Hwy. 94,Ramer,36069,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0358,-86.21654673000002,32.052133980000015
+353,ExactMatch,Exact,508,Pine Level Fire Station,393 Moore Rd.,Ramer,36069,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0359,-86.06099999999999,32.06477296000003
+351,ExactMatch,Approx,506,Davis Crossroads Fire Station,6475 Mt. Zion Road,Ramer,36069,Montgomery,Alabama,A,,0360,-86.1767,32.13799999999997
+350,ExactMatch,Rooftop,505,Essence Studio & Events Center (temp. location),5085 Virginia Loop Rd.,Montgomery,36116,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0362,-86.23854828000002,32.29640960999999
+314,ExactMatch,Rooftop,106,City of Refuge Church,3820 Woodley Rd.,Montgomery,36116,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0363,-86.25377654999996,32.30848312000003
+354,ExactMatch,Exact,509,Woodland United Methodist Church,4428 Wallahatchie Rd.,Pike Road,36064,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0364,-86.04739999999995,32.31000000000003
+315,ExactMatch,Rooftop,107,"Trenholm State (Patterson Campus, Bldg. D)",3920 Troy Highway,Montgomery,36116,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0365,-86.24079131999999,32.32452393000004
+312,ExactMatch,Rooftop,104,Whitfield Methodist Church,2673 Fisk Rd.,Montgomery,36111,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0366,-86.26101685000003,32.332305909999995
+313,ExactMatch,Rooftop,105,Aldersgate Methodist Church,6610 Vaughn Rd.,Montgomery,36116,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0367,-86.20451355000003,32.33990478999999
+357,ExactMatch,Exact,512,St. James United Methodist Church,9045 Vaughn Rd.,Montgomery,36117,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0368,-86.12441122000001,32.34152959000004
+310,ExactMatch,Rooftop,102,Vaughn Park Church of Christ,3800 Vaughn Rd.,Montgomery,36106,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0369,-86.24391173999997,32.34976578000001
+311,ExactMatch,Exact,103,Montgomery Museum of Fine Arts,1 Museum Dr.,Montgomery,36117,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0370,-86.20870000000004,32.35269999999996
+346,ExactMatch,Rooftop,501,First Christian Church,1705 Taylor Rd.,Montgomery,36117,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0371,-86.17120360999998,32.353286740000016
+355,ExactMatch,Exact,510,Pike Road High School at Georgia Washington,696 Georgia Washington Rd.,Pike Road,36064,Montgomery,Alabama,X,0.2 PCT ANNUAL CHANCE FLOOD HAZARD,0372,-86.10149999999997,32.35437857000002
+356,ExactMatch,Rooftop,511,AUM - Outreach Center,75 Technacenter Dr.,Montgomery,36117,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0373,-86.12989043999995,32.369251250000026
+328,ExactMatch,Rooftop,302,Eastern Hills Baptist Church,3604 Pleasant Ridge Rd.,Montgomery,36109,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0375,-86.25603485000002,32.37839126999999
+331,ExactMatch,Rooftop,305,Frazer United Methodist Church,6000 Atlanta Hwy.,Montgomery,36117,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0376,-86.19712067000003,32.381427759999966
+329,ExactMatch,Rooftop,303,Eastmont Baptist Church,4505 Atlanta Hwy.,Montgomery,36109,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0377,-86.22757720999999,32.38286208999998
+327,ExactMatch,Rooftop,301,Dalraida Church of Christ,3740 Atlanta Hwy.,Montgomery,36109,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0378,-86.25068665,32.38306045999996
+332,KnownAlternateName,Exact,306,Eastdale Baptist Church,400 Burbank Dr.,Montgomery,36117,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0380,-86.19840000000002,32.39000000000002
+345,ExactMatch,Rooftop,413,Passion Church - Montgomery,6825 Wares Ferry Rd.,Montgomery,36117,Montgomery,Alabama,X,AREA OF MINIMAL FLOOD HAZARD,0381,-86.18080901999998,32.40631484999998
+330,ExactMatch,Rooftop,304,Lagoon Park - Pete Peterson Lodge,2635 Gunter Park Dr. E.,Montgomery,36109,Montgomery,Alabama,AE,,0382,-86.22518921000002,32.415882110000034
+344,ExactMatch,Rooftop,412,Union Chapel AME Church,3100 Old Wetumpka Hwy.,Montgomery,36110,Montgomery,Alabama,AE,,0383,-86.22198486000002,32.42712402

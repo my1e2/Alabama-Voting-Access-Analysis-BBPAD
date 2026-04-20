@@ -1,0 +1,56 @@
+VOTER ACCESSIBILITY ANALYSIS - MONTGOMERY COUNTY, AL
+=====================================================
+
+MODEL 1: Walkability Score ~ Demographics
+-------------------------------------------------
+
+Call:
+lm(formula = as.formula(formula_str), data = analysis_df_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-46.909 -13.641  -1.397  16.529  40.336 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 39.79523    3.71554  10.710   <2e-16 ***
+pct_black    0.13740    0.05647   2.433   0.0158 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 20.52 on 201 degrees of freedom
+Multiple R-squared:  0.02862,	Adjusted R-squared:  0.02378 
+F-statistic: 5.921 on 1 and 201 DF,  p-value: 0.01584
+
+
+
+MODEL 2: Walking Distance ~ Demographics
+-------------------------------------------------
+
+Call:
+lm(formula = as.formula(formula_str), data = analysis_df_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.4073 -0.8388 -0.3321  0.2478 18.7918 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.14046    0.34019   9.231  < 2e-16 ***
+pct_black   -0.02424    0.00517  -4.688 5.08e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.879 on 201 degrees of freedom
+Multiple R-squared:  0.09858,	Adjusted R-squared:  0.09409 
+F-statistic: 21.98 on 1 and 201 DF,  p-value: 5.076e-06
+
+
+
+GROUP COMPARISON
+----------------
+# A tibble: 2 × 4
+  black_category          n avg_distance sd_distance
+  <chr>               <int>        <dbl>       <dbl>
+1 High % Black (>50%)   133         1.22       0.979
+2 Low % Black (<50%)     70         2.52       2.91 

@@ -1,0 +1,86 @@
+VOTER ACCESSIBILITY ANALYSIS - MONTGOMERY COUNTY, AL
+TRACT-LEVEL DEMOGRAPHIC ANALYSIS
+=====================================================
+
+MODEL 1: Walkability Score ~ % Black + % Poverty
+-------------------------------------------------
+
+Call:
+lm(formula = walkability_score ~ pct_black + pct_poverty, data = analysis_df_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-47.782 -14.212  -1.661  16.361  39.178 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 39.82951    3.68942  10.796   <2e-16 ***
+pct_black    0.04146    0.06875   0.603   0.5472    
+pct_poverty  0.25644    0.12243   2.095   0.0375 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 20.32 on 198 degrees of freedom
+Multiple R-squared:  0.0459,	Adjusted R-squared:  0.03626 
+F-statistic: 4.762 on 2 and 198 DF,  p-value: 0.009549
+
+
+
+MODEL 2: Walking Distance ~ % Black + % Poverty + % No Vehicle
+-------------------------------------------------------------
+
+Call:
+lm(formula = walking_dist ~ pct_black + pct_poverty + pct_no_vehicle, 
+    data = analysis_df_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.3978 -0.8081 -0.3047  0.3307 18.7458 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)     3.141328   0.342909   9.161   <2e-16 ***
+pct_black      -0.017401   0.006515  -2.671   0.0082 ** 
+pct_poverty    -0.015534   0.011445  -1.357   0.1763    
+pct_no_vehicle -0.028084   0.048979  -0.573   0.5670    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.888 on 197 degrees of freedom
+Multiple R-squared:  0.1048,	Adjusted R-squared:  0.09115 
+F-statistic: 7.686 on 3 and 197 DF,  p-value: 6.976e-05
+
+
+
+MODEL 3: Walking Distance ~ Vulnerability Index
+----------------------------------------------
+
+Call:
+lm(formula = walking_dist ~ vulnerability_index, data = analysis_df_complete)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.2577 -0.8740 -0.3933  0.4244 18.8436 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           1.7003     0.1333  12.752  < 2e-16 ***
+vulnerability_index  -0.8321     0.1825  -4.559 8.98e-06 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.889 on 199 degrees of freedom
+Multiple R-squared:  0.09456,	Adjusted R-squared:  0.09001 
+F-statistic: 20.78 on 1 and 199 DF,  p-value: 8.975e-06
+
+
+
+VULNERABILITY CATEGORY SUMMARY
+-----------------------------
+# A tibble: 4 × 6
+  vulnerability_category     n avg_distance sd_distance avg_pct_black avg_pct_poverty
+  <chr>                  <int>        <dbl>       <dbl>         <dbl>           <dbl>
+1 Very Low                  10        2.37        1.77           16.9            3.91
+2 Low                       95        2.18        2.58           45.2           12.2 
+3 Moderate                  83        1.19        0.926          80.4           32.3 
+4 High                      13        0.681       0.304          85.5           45.1 

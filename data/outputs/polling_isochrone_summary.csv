@@ -1,0 +1,246 @@
+polling_place,time_minutes,area_sq_miles,population_served
+Pintlala Fire Department,5,0.07307053595433222,0
+Pintlala Fire Department,10,0.20253257350732426,0
+Pintlala Fire Department,15,0.3899044891440565,0
+Pintlala Fire Department,20,0.5998573193533088,0
+Pintlala Fire Department,30,1.3182788795327955,0
+Snowdoun Volunteer Fire Department,5,0.06802812310082529,0
+Snowdoun Volunteer Fire Department,10,0.25498076568941275,0
+Snowdoun Volunteer Fire Department,15,0.49613518130268874,0
+Snowdoun Volunteer Fire Department,20,0.8087008188942307,0
+Snowdoun Volunteer Fire Department,30,1.5882456325297774,0
+First Southern Baptist Church,5,0.058113931116187144,0
+First Southern Baptist Church,10,0.19054837674552536,0
+First Southern Baptist Church,15,0.37781841721540754,0
+First Southern Baptist Church,20,0.5853396184484082,0
+First Southern Baptist Church,30,1.122759851815545,0
+Southlawn Baptist Church,5,0.06113402390360706,0
+Southlawn Baptist Church,10,0.2815721155435437,0
+Southlawn Baptist Church,15,0.7206167895629786,1956
+Southlawn Baptist Church,20,1.1438754794765145,1956
+Southlawn Baptist Church,30,1.696489089771008,3212
+C. Thomas Ventures / Event Center,5,0.05981281709459581,0
+C. Thomas Ventures / Event Center,10,0.22985558985306767,0
+C. Thomas Ventures / Event Center,15,0.5505815040255553,2062
+C. Thomas Ventures / Event Center,20,0.9966294395688896,2062
+C. Thomas Ventures / Event Center,30,1.9845613145214984,2062
+AFED Conference Center,5,0.06327618877876247,0
+AFED Conference Center,10,0.27377562785065795,0
+AFED Conference Center,15,0.7637919461214104,884
+AFED Conference Center,20,1.5726746502250697,2095
+AFED Conference Center,30,3.7379100806328047,9350
+St. Paul AME Church,5,0.13109931971857877,0
+St. Paul AME Church,10,0.4891606187741415,3053
+St. Paul AME Church,15,1.1065384156343048,4085
+St. Paul AME Church,20,1.942033516247843,5728
+St. Paul AME Church,30,4.285852516072656,11905
+Beulah Baptist Church,5,0.13317501505490692,0
+Beulah Baptist Church,10,0.5442639294981083,2229
+Beulah Baptist Church,15,1.1943557717589357,4413
+Beulah Baptist Church,20,1.9781682315283386,5429
+Beulah Baptist Church,30,3.9120291785582855,8792
+St. James Baptist Church,5,0.08850993150785999,1074
+St. James Baptist Church,10,0.44498595210590236,1074
+St. James Baptist Church,15,1.0851119678444763,2851
+St. James Baptist Church,20,2.0127413808113372,5676
+St. James Baptist Church,30,4.354560076786525,11887
+Rufus Lewis Library,5,0.06102089898399276,0
+Rufus Lewis Library,10,0.3043583911419384,0
+Rufus Lewis Library,15,0.787274097744318,1584
+Rufus Lewis Library,20,1.5083778485218968,2544
+Rufus Lewis Library,30,3.3474300379401827,5026
+Hayneville Road Community Center,5,0.07206242915172012,0
+Hayneville Road Community Center,10,0.31720256213098635,0
+Hayneville Road Community Center,15,0.6405607290136731,0
+Hayneville Road Community Center,20,1.234853397956678,0
+Hayneville Road Community Center,30,2.6441561279533943,0
+Stonetank Antioch Baptist Church / Fellowship Hall,5,0.09627405463128026,0
+Stonetank Antioch Baptist Church / Fellowship Hall,10,0.34316983971972853,0
+Stonetank Antioch Baptist Church / Fellowship Hall,15,0.6754097278574133,0
+Stonetank Antioch Baptist Church / Fellowship Hall,20,1.0762241783319733,0
+Stonetank Antioch Baptist Church / Fellowship Hall,30,1.9042534712859986,0
+Drum Theater / Huntingdon College,5,0.05958502596034409,0
+Drum Theater / Huntingdon College,10,0.33355642185652357,792
+Drum Theater / Huntingdon College,15,0.9000921184701599,3555
+Drum Theater / Huntingdon College,20,1.7007433142251291,5963
+Drum Theater / Huntingdon College,30,4.3136375670933065,12169
+McIntyre Community Center,5,0.1110257512473768,394
+McIntyre Community Center,10,0.46102105870160587,1515
+McIntyre Community Center,15,0.9949480765708113,2684
+McIntyre Community Center,20,1.7507466061211372,3877
+McIntyre Community Center,30,4.046785705301839,7036
+Cleveland Ave. YMCA,5,0.15610269317010547,876
+Cleveland Ave. YMCA,10,0.5377514912339312,1974
+Cleveland Ave. YMCA,15,1.206488780804503,2452
+Cleveland Ave. YMCA,20,2.1736197554263965,4411
+Cleveland Ave. YMCA,30,4.790641428976832,12173
+Alabama State University / Acadome,5,0.10615745000747503,2408
+Alabama State University / Acadome,10,0.45606701849334674,2901
+Alabama State University / Acadome,15,1.1121208620193648,3960
+Alabama State University / Acadome,20,2.0753099942190794,7709
+Alabama State University / Acadome,30,4.741887042716428,14348
+Houston Hills Community Center,5,0.10304489035557741,1182
+Houston Hills Community Center,10,0.4751531578099451,1182
+Houston Hills Community Center,15,1.1486625659688332,2778
+Houston Hills Community Center,20,2.073326726012003,5400
+Houston Hills Community Center,30,4.51199858849997,12944
+Lapine Baptist Church,5,0.1288896910375573,0
+Lapine Baptist Church,10,0.4453151644550062,618
+Lapine Baptist Church,15,0.8758682360886174,618
+Lapine Baptist Church,20,1.2551084032500097,618
+Lapine Baptist Church,30,2.5200959089153705,2455
+"Hilton L. ""Tracy"" Larkin Community Center",5,0.08396914357793002,0
+"Hilton L. ""Tracy"" Larkin Community Center",10,0.2805752578374453,1095
+"Hilton L. ""Tracy"" Larkin Community Center",15,0.6785233961970187,1756
+"Hilton L. ""Tracy"" Larkin Community Center",20,1.3204878304048642,4468
+"Hilton L. ""Tracy"" Larkin Community Center",30,3.28386358957189,10276
+Hunter Station Community Center,5,0.0581659060416328,0
+Hunter Station Community Center,10,0.2769254432479865,0
+Hunter Station Community Center,15,0.5421774540051345,0
+Hunter Station Community Center,20,0.950162026107354,0
+Hunter Station Community Center,30,1.7754852464780446,463
+Newtown Community Center,5,0.09694891833366279,262
+Newtown Community Center,10,0.27315590129781425,262
+Newtown Community Center,15,0.4896016187393302,262
+Newtown Community Center,20,0.8277267641333956,262
+Newtown Community Center,30,2.3878212122687463,3559
+Highland Gardens Community Center,5,0.11817365690707757,718
+Highland Gardens Community Center,10,0.4350669663845629,1486
+Highland Gardens Community Center,15,0.8575379042628252,2578
+Highland Gardens Community Center,20,1.2986429300485505,3297
+Highland Gardens Community Center,30,3.3459917176103673,10006
+Chisholm Community Center,5,0.09961788905142885,0
+Chisholm Community Center,10,0.37822093273665286,2315
+Chisholm Community Center,15,0.8149423760910323,2315
+Chisholm Community Center,20,1.4973436257730852,3034
+Chisholm Community Center,30,3.3637705808180933,7153
+Sheridan Heights Community Center,5,0.0849439129929319,1272
+Sheridan Heights Community Center,10,0.3336854152712798,1272
+Sheridan Heights Community Center,15,0.7234959171977134,1272
+Sheridan Heights Community Center,20,1.1651199945754467,2760
+Sheridan Heights Community Center,30,2.2299863129152215,4239
+Union Academy Baptist Church,5,0.05413738390664559,0
+Union Academy Baptist Church,10,0.19302630352660308,0
+Union Academy Baptist Church,15,0.38184195630633855,0
+Union Academy Baptist Church,20,0.7050706718828164,0
+Union Academy Baptist Church,30,1.6555823433479506,2760
+Dublin Fire Station,5,0.06285654842995056,0
+Dublin Fire Station,10,0.1593599466962632,0
+Dublin Fire Station,15,0.3245020813999906,0
+Dublin Fire Station,20,0.531523578948896,0
+Dublin Fire Station,30,1.0509863841442588,0
+Ramer Public Library,5,0.0638942944941064,0
+Ramer Public Library,10,0.22359003756022944,0
+Ramer Public Library,15,0.5299592747493457,0
+Ramer Public Library,20,0.8687429555790647,0
+Ramer Public Library,30,1.5954306497657529,0
+Pine Level Fire Station,5,0.06285526189473498,0
+Pine Level Fire Station,10,0.2878114451008063,0
+Pine Level Fire Station,15,0.6099186397546881,0
+Pine Level Fire Station,20,0.9415857734501408,0
+Pine Level Fire Station,30,1.5601663499131584,0
+Davis Crossroads Fire Station,5,0.055289858258416175,0
+Davis Crossroads Fire Station,10,0.2023138451326745,0
+Davis Crossroads Fire Station,15,0.3977708808845004,0
+Davis Crossroads Fire Station,20,0.6171265444561775,0
+Davis Crossroads Fire Station,30,1.0214299939119824,0
+Essence Studio & Events Center (temp. location),5,0.08180248166188733,0
+Essence Studio & Events Center (temp. location),10,0.2948333636626258,0
+Essence Studio & Events Center (temp. location),15,0.6458530674801667,0
+Essence Studio & Events Center (temp. location),20,1.0579653897852241,0
+Essence Studio & Events Center (temp. location),30,2.889981473276143,6034
+City of Refuge Church,5,0.1307494867565122,1579
+City of Refuge Church,10,0.4054369261008856,1579
+City of Refuge Church,15,0.8646279535422051,3455
+City of Refuge Church,20,1.4777217502012479,5835
+City of Refuge Church,30,3.004702501665508,8341
+Woodland United Methodist Church,5,0.04937566070027607,0
+Woodland United Methodist Church,10,0.13595406535874074,0
+Woodland United Methodist Church,15,0.31259693094716196,0
+Woodland United Methodist Church,20,0.5925065091636746,0
+Woodland United Methodist Church,30,1.2200043949218,0
+"Trenholm State (Patterson Campus, Bldg. D)",5,0.0738069427024038,0
+"Trenholm State (Patterson Campus, Bldg. D)",10,0.31118637564467366,0
+"Trenholm State (Patterson Campus, Bldg. D)",15,0.815143068672597,0
+"Trenholm State (Patterson Campus, Bldg. D)",20,1.5046167805540311,7227
+"Trenholm State (Patterson Campus, Bldg. D)",30,3.6900762807957697,14333
+Whitfield Methodist Church,5,0.09644038396115868,0
+Whitfield Methodist Church,10,0.42166800460734055,1060
+Whitfield Methodist Church,15,0.9980883377110655,2552
+Whitfield Methodist Church,20,1.7432119700463071,5550
+Whitfield Methodist Church,30,4.046803917190655,11855
+Aldersgate Methodist Church,5,0.07157311689538753,0
+Aldersgate Methodist Church,10,0.330715446089744,0
+Aldersgate Methodist Church,15,0.7958728404172858,0
+Aldersgate Methodist Church,20,1.451702901276097,3208
+Aldersgate Methodist Church,30,3.6696540664671384,8217
+St. James United Methodist Church,5,0.0928715798529222,0
+St. James United Methodist Church,10,0.3023420035431054,0
+St. James United Methodist Church,15,0.6949282594168116,0
+St. James United Methodist Church,20,1.1816391950017182,0
+St. James United Methodist Church,30,2.87117525824621,1578
+Vaughn Park Church of Christ,5,0.07664340717283875,0
+Vaughn Park Church of Christ,10,0.3452491813382032,0
+Vaughn Park Church of Christ,15,0.9538568844927395,2494
+Vaughn Park Church of Christ,20,1.762603730701327,3116
+Vaughn Park Church of Christ,30,3.880467594475219,10823
+Montgomery Museum of Fine Arts,5,0.12815247248503717,1379
+Montgomery Museum of Fine Arts,10,0.414388179778995,2660
+Montgomery Museum of Fine Arts,15,0.8854822936932867,4164
+Montgomery Museum of Fine Arts,20,1.5150083691917364,5180
+Montgomery Museum of Fine Arts,30,3.428606250586564,8877
+First Christian Church,5,0.10385107350752597,0
+First Christian Church,10,0.4346070488562995,0
+First Christian Church,15,0.9041710223231706,757
+First Christian Church,20,1.4953501982279482,757
+First Christian Church,30,3.490600748297478,4090
+Pike Road High School at Georgia Washington,5,0.08189275758038018,0
+Pike Road High School at Georgia Washington,10,0.24555680475061514,0
+Pike Road High School at Georgia Washington,15,0.5360941144683106,0
+Pike Road High School at Georgia Washington,20,0.8933348396946933,0
+Pike Road High School at Georgia Washington,30,1.8557999067490931,0
+AUM - Outreach Center,5,0.06556739156087703,0
+AUM - Outreach Center,10,0.19287659408587887,0
+AUM - Outreach Center,15,0.3688668994193816,0
+AUM - Outreach Center,20,0.68867089517479,0
+AUM - Outreach Center,30,1.7521256079325387,0
+Eastern Hills Baptist Church,5,0.13203908022084462,0
+Eastern Hills Baptist Church,10,0.4736039492257801,2277
+Eastern Hills Baptist Church,15,0.9142873513714624,2277
+Eastern Hills Baptist Church,20,1.651651329102244,4736
+Eastern Hills Baptist Church,30,3.831104437890916,10003
+Frazer United Methodist Church,5,0.12493298371413702,0
+Frazer United Methodist Church,10,0.44870899539317316,797
+Frazer United Methodist Church,15,0.9145636197466448,3236
+Frazer United Methodist Church,20,1.6311589118078074,5452
+Frazer United Methodist Church,30,3.760507086306094,9391
+Eastmont Baptist Church,5,0.09239187870639547,0
+Eastmont Baptist Church,10,0.38945697892976083,0
+Eastmont Baptist Church,15,0.839805468067617,1948
+Eastmont Baptist Church,20,1.6753674183331524,3820
+Eastmont Baptist Church,30,3.659395167942509,6031
+Dalraida Church of Christ,5,0.0967674328435911,0
+Dalraida Church of Christ,10,0.37916785671799264,726
+Dalraida Church of Christ,15,1.0023662123952195,1374
+Dalraida Church of Christ,20,1.8508845567478989,3439
+Dalraida Church of Christ,30,4.509154988648039,14672
+Eastdale Baptist Church,5,0.14234567026288705,750
+Eastdale Baptist Church,10,0.5450889635826259,750
+Eastdale Baptist Church,15,1.0830896158597594,4689
+Eastdale Baptist Church,20,1.8252846581144966,6615
+Eastdale Baptist Church,30,3.539269338593783,10761
+Passion Church - Montgomery,5,0.0714527471403287,0
+Passion Church - Montgomery,10,0.2403952553495691,0
+Passion Church - Montgomery,15,0.465752219145903,0
+Passion Church - Montgomery,20,0.7596458805789382,0
+Passion Church - Montgomery,30,1.5750370019614177,3769
+Lagoon Park - Pete Peterson Lodge,5,0.08676440619417602,0
+Lagoon Park - Pete Peterson Lodge,10,0.19907107660457596,0
+Lagoon Park - Pete Peterson Lodge,15,0.37454341320511586,0
+Lagoon Park - Pete Peterson Lodge,20,0.6337650554776257,0
+Lagoon Park - Pete Peterson Lodge,30,1.5288803904660409,0
+Union Chapel AME Church,5,0.03738590762342802,0
+Union Chapel AME Church,10,0.1764074532104946,0
+Union Chapel AME Church,15,0.41367871977863807,0
+Union Chapel AME Church,20,0.7636169574150758,0
+Union Chapel AME Church,30,1.8814125766044054,641
