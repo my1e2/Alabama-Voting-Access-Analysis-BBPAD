@@ -16,7 +16,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 
 # google routes api configuration
 # api key for distance matrix computations (walking mode)
-API_KEY = "AIzaSyBYWZPJn3r__GIM1Vazym8KByuVNCLlpN0"
+API_KEY = ""
 ROUTES_URL = "https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix"
 
 
