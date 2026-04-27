@@ -46,42 +46,296 @@ A U.S. Census Bureau API key is required for `api_acs_data_pull.R`. Obtain one a
 
 Required for `google_walking_distance_calculations.py` and the corresponding fill scripts. Store separately and do not commit to the repository.
 
-### OSRM Setup
+Here's the enhanced OSRM section with comprehensive context:
+
+---
+
+### OSRM Setup (Network Distance Calculations)
+
+OSRM (Open Source Routing Machine) is a high-performance routing engine used to calculate actual road network distances for both driving and walking routes. Two separate OSRM instances are required: one for driving distances (port 5001) and one for pedestrian walking distances (port 5002).
+
+#### Why Two Instances?
+
+- **Driving profile (port 5001):** Calculates shortest routes using road networks, accounting for one-way streets, turn restrictions, and speed limits. Used to determine how far voters would actually need to drive.
+- **Walking profile (port 5002):** Calculates pedestrian routes using sidewalks, footpaths, crosswalks, and pedestrian-accessible pathways. Used to determine realistic walking distances to polling places.
+
+#### Step 1: Download Shared Data
 
 ```bash
-# Download Alabama OSM extract
-wget https://download.geofabrik.de/north-america/us/alabama-latest.osm.pbf
+# Create directories for OSRM data
+mkdir -p ~/osrm_data
 
-# Extract and prepare routing graph (driving profile)
-osrm-extract alabama-latest.osm.pbf -p /opt/osrm/profiles/car.lua
-osrm-contract alabama-latest.osrm
-
-# Start OSRM server (driving)
-osrm-routed alabama-latest.osrm --port 5001 --algorithm=MLD
-
-# Start OSRM server (walking/foot profile)
-osrm-extract alabama-latest.osm.pbf -p /opt/osrm/profiles/foot.lua
-osrm-routed alabama-latest.osrm --port 5002 --algorithm=MLD
+# Download Alabama OSM extract (approx 150MB)
+wget -O ~/osrm_data/alabama-latest.osm.pbf \
+  https://download.geofabrik.de/north-america/us/alabama-latest.osm.pbf
 ```
 
-### Valhalla Setup (for Isochrones)
+#### Step 2: Build Driving Profile (Port 5001)
 
 ```bash
-# Pull Valhalla Docker image
+# Extract road network with car profile
+osrm-extract ~/osrm_data/alabama-latest.osm.pbf \
+  -p /opt/osrm/profiles/car.lua
+
+# Contract the graph for faster queries (5-10 minutes)
+osrm-contract ~/osrm_data/alabama-latest.osrm
+
+# Start driving server in background
+osrm-routed ~/osrm_data/alabama-latest.osrm \
+  --port 5001 \
+  --algorithm=MLD \
+  --max-table-size 10000 &
+```
+
+#### Step 3: Build Walking Profile (Port 5002)
+
+```bash
+# Extract pedestrian network with foot profile
+osrm-extract ~/osrm_data/alabama-latest.osm.pbf \
+  -p /opt/osrm/profiles/foot.lua
+
+# Contract using Multi-Level Dijkstra for faster performance
+osrm-contract ~/osrm_data/alabama-latest.osrm
+
+# Start walking server in background
+osrm-routed ~/osrm_data/alabama-latest.osrm \
+  --port 5002 \
+  --algorithm=MLD \
+  --max-table-size 10000 &
+```
+
+#### Step 4: Verify Both Instances
+
+```bash
+# Test driving route
+curl "http://localhost:5001/route/v1/driving/-86.3077,32.3792;-86.2993,32.3669?overview=false"
+
+# Test walking route
+curl "http://localhost:5002/route/v1/walking/-86.3077,32.3792;-86.2993,32.3669?overview=false"
+```
+
+#### Configuration Flags
+
+| Flag | Purpose |
+|------|---------|
+| `--port` | Specifies which port the server listens on |
+| `--max-table-size` | Maximum number of coordinates in a single request (set to 10000 for batch processing) |
+| `--algorithm=MLD` | Uses Multi-Level Dijkstra algorithm (faster for pedestrian routing) |
+| `-p` | Specifies the routing profile (car.lua or foot.lua) |
+
+#### Installation
+
+**macOS:**
+```bash
+brew install osrm-backend
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get update
+sudo apt-get install osrm-backend
+```
+
+**From Source:**
+```bash
+git clone https://github.com/Project-OSRM/osrm-backend.git
+cd osrm-backend
+mkdir build && cd build
+cmake ..
+make -j4
+sudo make install
+```
+
+#### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Port already in use | Kill existing process: `lsof -ti:5001 \| xargs kill` |
+| Memory errors during contraction | Use `osrm-customize` instead of `osrm-contract` for limited memory environments |
+| Slow query performance | Ensure you ran `osrm-contract` after `osrm-extract` |
+| Segmentation fault | Check that OSM file is not corrupted; re-download if needed |
+
+#### Stopping OSRM
+
+```bash
+# Find and kill OSRM processes
+ps aux | grep osrm-routed
+kill -9 [PID]
+```
+
+---
+
+### Valhalla Setup (Isochrones)
+
+Valhalla is an open source routing engine used to generate walking isochrones (walkable area polygons) around polling places.
+
+#### Prerequisites
+
+- Docker installed and running
+- At least 4GB RAM available for the container
+- Alabama OpenStreetMap data extract
+
+#### Step 1: Download OpenStreetMap Data
+
+```bash
+# Create a directory for Valhalla data
+mkdir -p ~/valhalla_data
+
+# Download Alabama OSM extract (approx 150MB)
+wget -O ~/valhalla_data/alabama-latest.osm.pbf \
+  https://download.geofabrik.de/north-america/us/alabama-latest.osm.pbf
+```
+
+#### Step 2: Build Valhalla Routing Tiles
+
+```bash
+# Pull the Valhalla image
 docker pull valhalla/valhalla:latest
 
-# Start Valhalla with Alabama tiles mounted
-docker run -p 8002:8002 -v /path/to/valhalla_data:/data valhalla/valhalla
+# Create a temporary container to build tiles
+docker run -it --rm \
+  -v ~/valhalla_data:/data \
+  valhalla/valhalla:latest \
+  valhalla_build_config --mjolnir-tile-dir /data/valhalla_tiles --mjolnir-tile-extract /data/valhalla_tiles.tar
+
+# Build the routing tiles (this takes 10-20 minutes)
+docker run -it --rm \
+  -v ~/valhalla_data:/data \
+  valhalla/valhalla:latest \
+  valhalla_build_tiles -c /data/valhalla.json /data/alabama-latest.osm.pbf
 ```
+
+#### Step 3: Start the Valhalla Server
+
+```bash
+# Start Valhalla server on port 8002
+docker run -d \
+  --name valhalla \
+  -p 8002:8002 \
+  -v ~/valhalla_data:/data \
+  valhalla/valhalla:latest \
+  valhalla_service /data/valhalla.json 1
+```
+
+#### Step 4: Verify Installation
+
+```bash
+# Test the server with a simple isochrone request
+curl http://localhost:8002/isochrone \
+  --data '{"locations":[{"lat":32.3792,"lon":-86.3077}],
+           "costing":"pedestrian",
+           "contours":[{"time":15,"color":"ff0000"}]}' \
+  | python -m json.tool
+```
+
+#### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Port 8002 already in use | Change `-p 8002:8002` to another port, e.g., `-p 8003:8002` |
+| Container exits immediately | Run without `-d` flag to see error logs |
+| Out of memory | Increase Docker memory limit in Docker Desktop settings |
+| Permission denied on data directory | Run `chmod -R 755 ~/valhalla_data` |
+| Slow tile building | Use a machine with SSD storage and at least 8GB RAM |
+
+#### Stopping and Restarting
+
+```bash
+# Stop the container
+docker stop valhalla
+
+# Restart the container
+docker start valhalla
+
+# Remove the container (data persists in ~/valhalla_data)
+docker rm valhalla
+```
+
+#### Manual Configuration (Optional)
+
+If you need custom routing profiles, create `~/valhalla_data/valhalla.json`:
+
+```json
+{
+  "mjolnir": {
+    "tile_dir": "/data/valhalla_tiles",
+    "tile_extract": "/data/valhalla_tiles.tar",
+    "timezone": "/data/valhalla_tiles/timezones.sqlite",
+    "admin": "/data/valhalla_tiles/admins.sqlite"
+  },
+  "loki": {
+    "actions": ["locate", "route", "height", "isochrone"],
+    "logging": {"type": "std_out"},
+    "service": {"proxy": "ipc:///tmp/loki"}
+  },
+  "thor": {
+    "logging": {"type": "std_out"},
+    "service": {"proxy": "ipc:///tmp/thor"}
+  },
+  "httpd": {
+    "service": {
+      "loopback": "ipc:///tmp/valhalla",
+      "interrupt": "ipc:///tmp/valhalla"
+    }
+  },
+  "service_limits": {
+    "auto": {"max_distance": 5000000},
+    "pedestrian": {"max_distance": 250000}
+  }
+}
+```
+
+---
 
 ### PostgreSQL Setup
 
-```sql
--- Create database and enable PostGIS
+Install PostgreSQL with PostGIS, then create the database and enable spatial extensions all from terminal. PostgreSQL is an open-source relational database that stores all the project's processed data — census demographics, election results, polling locations, distance calculations, and accessibility scores. The PostGIS extension adds support for geographic objects, enabling spatial queries like "which block groups are within a 15-minute walk of this polling place?" directly in SQL.
+
+**macOS:**
+```bash
+brew install postgresql@15 postgis
+brew services start postgresql@15
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get update
+sudo apt-get install postgresql postgis postgresql-15-postgis-3
+sudo systemctl start postgresql
+```
+
+**Windows:**
+1. Download the installer from [postgresql.org/download/windows](https://www.postgresql.org/download/windows)
+2. During installation, check the box for PostGIS when prompted
+3. Open **SQL Shell (psql)** from the Start menu to access the terminal
+
+#### Create and Configure the Database
+
+```bash
+# Open PostgreSQL terminal
+psql -U postgres
+
+# Inside psql, run these commands:
 CREATE DATABASE montgomery_voter_access;
 \c montgomery_voter_access
 CREATE EXTENSION postgis;
 ```
+
+Verify it worked:
+```sql
+SELECT PostGIS_Version();
+```
+
+If you see a version number, you're done. Exit with `\q`.
+
+#### Connection Details
+
+When scripts ask for a database connection, use:
+- **Host:** `localhost`
+- **Port:** `5432`
+- **Database:** `montgomery_voter_access`
+- **User:** `postgres`
+- **Password:** whatever you set during installation
 
 ---
 
