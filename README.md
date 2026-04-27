@@ -57,9 +57,10 @@ osrm-extract alabama-latest.osm.pbf -p /opt/osrm/profiles/car.lua
 osrm-contract alabama-latest.osrm
 
 # Start OSRM server (driving)
-osrm-routed alabama-latest.osrm --port 5001
+osrm-routed alabama-latest.osrm --port 5001 --algorithm=MLD
 
 # Start OSRM server (walking/foot profile)
+osrm-extract alabama-latest.osm.pbf -p /opt/osrm/profiles/foot.lua
 osrm-routed alabama-latest.osrm --port 5002 --algorithm=MLD
 ```
 
