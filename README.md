@@ -22,7 +22,6 @@
    - [Visualization Outputs](#visualization-outputs)
 7. [Key Findings](#key-findings)
 8. [Configuration Requirements](#configuration-requirements)
-9. [Output Directory Structure](#output-directory-structure)
 
 ---
 
