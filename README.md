@@ -1,5 +1,7 @@
 # BB-PAD: Capstone Distance-Polling-Analysis
 
+[ArcGIS Dashboard](https://www.arcgis.com/apps/dashboards/bbbb11d91f6144a2851b4e5a92d7ccad)
+
 ## Project Overview
 
 **BB-PAD** is a comprehensive geospatial analysis project that examines polling place accessibility in Montgomery County, Alabama. The project calculates walking distances from population centers to polling locations, integrates demographic vulnerability indicators, analyzes voter turnout patterns, and produces actionable insights for improving electoral access. Multiple routing engines (Euclidean, Manhattan, OSRM network, OSRM pedestrian, Google Routes API) are employed alongside isochrone generation to provide a multi-faceted accessibility assessment.
