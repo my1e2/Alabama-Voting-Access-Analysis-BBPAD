@@ -16,13 +16,50 @@
    - [R Scripts](#r-scripts)
    - [Python Scripts](#python-scripts)
    - [SQL Scripts](#sql-scripts)
+   - [Google Apps Script](#google-apps-script)
 6. [Data Inventory](#data-inventory)
    - [Raw Data Sources](#raw-data-sources)
    - [Processed Data Outputs](#processed-data-outputs)
    - [Visualization Outputs](#visualization-outputs)
-7. [Key Findings](#key-findings)
-8. [Configuration Requirements](#configuration-requirements)
-9. [Output Directory Structure](#output-directory-structure)
+7. [Cloud Database & Live Dashboard Integration](#cloud-database--live-dashboard-integration)
+8. [Deployment Deliverables](#deployment-deliverables)
+9. [Additional Analytical Views](#additional-analytical-views)
+10. [Key Findings](#key-findings)
+11. [Configuration Requirements](#configuration-requirements)
+
+---
+
+## Project Structure
+
+```
+BB-PAD/
+├── data/
+│   ├── census/
+│   │   ├── raw/                    # Raw Census Bureau downloads
+│   │   └── processed/              # Cleaned demographic CSV and GeoJSON files
+│   ├── shapefiles/
+│   │   ├── precincts/              # Voting precinct boundaries (2020 and 2024)
+│   │   ├── boundaries/             # County and census tract boundaries
+│   │   └── infrastructure/         # Road network and paving project data
+│   ├── polling/
+│   │   ├── raw/                    # Client-provided polling place shapefiles
+│   │   └── processed/              # Standardized polling location data
+│   ├── elections/
+│   │   ├── raw/                    # Raw election result files
+│   │   └── processed/              # Cleaned and merged election data
+│   └── outputs/                    # Intermediate analytical files
+├── scripts/
+│   ├── python/                     # Python processing scripts
+│   ├── r/                          # R statistical analysis scripts
+│   ├── sql/                        # PostgreSQL/PostGIS database scripts
+│   └── arcgis/                     # ArcGIS Pro project files
+├── outputs/
+│   ├── maps/                       # Generated map images
+│   ├── figures/                    # Charts and statistical visualizations
+│   ├── tables/                     # Summary statistics and regression results
+│   └── reports/                    # Final deliverables and documentation
+└── README.md
+```
 
 ---
 
@@ -45,8 +82,6 @@ A U.S. Census Bureau API key is required for `api_acs_data_pull.R`. Obtain one a
 ### Google Routes API Key
 
 Required for `google_walking_distance_calculations.py` and the corresponding fill scripts. Store separately and do not commit to the repository.
-
-Here's the enhanced OSRM section with comprehensive context:
 
 ---
 
@@ -339,6 +374,20 @@ When scripts ask for a database connection, use:
 
 ---
 
+### Supabase Cloud Database Setup
+
+The project includes a cloud-hosted PostgreSQL database on Supabase for live client access and automated reporting. This migrates the local database to a 24/7 accessible cloud instance.
+
+1. Create a Supabase account at [supabase.com](https://supabase.com)
+2. Create a new project (us-west-2 region)
+3. Export local database: `pg_dump -U sartorm -d montgomery_voter_access -F c -f montgomery_voter_access.dump`
+4. Convert to SQL: `pg_restore -f montgomery_voter_access.sql montgomery_voter_access.dump`
+5. Run the SQL file in the Supabase SQL Editor
+6. Create all views using `create_views.sql` and the additional analytical views documented below
+7. Deploy the Edge Function (`query` function) for secure HTTPS API access to database views
+
+---
+
 ## Data Pipeline Overview
 
 The project follows a sequential data processing pipeline:
@@ -381,7 +430,7 @@ The project follows a sequential data processing pipeline:
 │                ANALYSIS & VISUALIZATION                             │
 ├─────────────────┬──────────────────┬───────────────────────────────┤
 │ Turnout         │ Correlation      │ Maps, Choropleths,             │
-│ Regression (R)  │ Analysis (R)     │ Isochrone Visuals (Py)         │
+│ Regression (R)  │ Analysis (R)     │ Isochrone Visuals (Py/R)       │
 └─────────────────┴──────────────────┴───────────────────────────────┘
 ```
 
@@ -398,6 +447,11 @@ The project follows a sequential data processing pipeline:
 | `sf` | ≥ 1.0 | Spatial data handling |
 | `tigris` | ≥ 1.6 | Census geographic boundary data |
 | `broom` | ≥ 0.7 | Tidy model output formatting |
+| `ggplot2` | ≥ 3.4 | Static visualization and choropleth maps |
+| `ggspatial` | ≥ 1.1 | Basemap tiles for maps |
+| `patchwork` | ≥ 1.1 | Combining multiple ggplot figures |
+| `pheatmap` | ≥ 1.0 | Correlation heatmap generation |
+| `rosm` | ≥ 0.2 | OpenStreetMap tile downloading |
 
 ### Python Packages
 
@@ -484,6 +538,23 @@ The project follows a sequential data processing pipeline:
 **Dependencies:** `tidyverse`, `broom`
 
 **Note:** Tract-level demographics are used because poverty data at the block group level is suppressed by the Census Bureau (all `NA` values). The merge process uses tract GEOIDs constructed from the accessibility file's TRACTCE field.
+
+---
+
+#### `choropleth_map.R, correlation_heatmap.R, isochrone_final.R, vulnerability_bar_chart.R`
+
+**Purpose:** These small-scale R scripts create publication-quality static visualizations in R using ggplot2, including correlation heatmaps, choropleth maps, vulnerability bar charts, and faceted isochrone maps. These complement the early Python visualizations with more polished formatting suitable for reports and presentations.
+
+**Key Visualizations:**
+
+- **Correlation heatmap (pheatmap):** Clustered heatmap showing correlations between walking distance, walkability score, and demographic variables with annotated correlation coefficients and significance stars.
+- **Choropleth maps (ggplot2 + sf):** Tract-level maps colored by walking distance, walkability score, % Black, % poverty, and vulnerability score using viridis color scales for accessibility interpretation.
+- **Vulnerability bar chart:** Walking distance by vulnerability category with standard deviation error bars, colored by category (Very Low/Low/Moderate/High).
+- **Faceted isochrone map:** Five-panel faceted figure showing 5, 10, 15, 20, and 30-minute walking isochrones with polling places on an OpenStreetMap basemap, using smaller point markers and darker isochrone borders for improved visibility.
+
+**Dependencies:** `ggplot2`, `sf`, `ggspatial`, `patchwork`, `pheatmap`, `tidyverse`, `rosm`
+
+**Note:** The faceted isochrone map uses `annotation_map_tile(type = "osm")` for basemap rendering and transforms all layers to EPSG:3857 for compatibility. Polling place markers are sized at 1.2 with red-orange fill for contrast against the basemap and isochrone polygons.
 
 ---
 
@@ -1089,6 +1160,55 @@ The project follows a sequential data processing pipeline:
 
 ---
 
+---
+
+#### `arcgis.py`
+
+**Purpose:** Exports processed database query results from PostgreSQL to GeoJSON format for direct upload to ArcGIS Online as feature layers. Handles the conversion of Well-Known Text (WKT) geometry representations from SQL exports into shapely geometry objects suitable for spatial file formats.
+
+**Functionality:**
+
+- Reads two CSV files generated by the ArcGIS export queries in `useful_queries.sql`: the block group accessibility dataset and the polling places coverage dataset
+- Converts the `wkt_geometry` column from WKT string format to shapely geometry objects using `shapely.wkt.loads()`
+- Creates GeoDataFrames with EPSG:4326 (WGS84) coordinate reference system
+- Exports as GeoJSON files ready for direct upload to ArcGIS Online as feature layers
+
+**Inputs:**
+
+| File | Description |
+|------|-------------|
+| `/tmp/arcgis_export.csv` | Block group accessibility data with WKT geometry (203 rows) |
+| `/tmp/polling_places_export.csv` | Polling place coverage data with WKT geometry (49 rows) |
+
+**Outputs:**
+
+| File | Description |
+|------|-------------|
+| `/tmp/montgomery_accessibility.geojson` | Spatial GeoJSON of 203 block groups with all accessibility and demographic metrics |
+| `/tmp/montgomery_polling_places.geojson` | Spatial GeoJSON of 49 polling places with coverage statistics |
+
+**WKT Geometry Conversion:**
+
+The SQL export queries use `ST_AsText(geom)` to serialize PostGIS geometries to WKT format. This script reverses that process, converting the text representation back into usable geometry objects:
+
+```python
+df['geometry'] = df['wkt_geometry'].apply(wkt.loads)
+```
+
+This produces valid POINT geometries for both population centers and polling places, which are then written to GeoJSON with proper coordinate reference system metadata.
+
+**ArcGIS Online Integration:**
+
+The output GeoJSON files are uploaded as feature layers in ArcGIS Online, where they serve as the data foundation for:
+- The Montgomery County Voter Access Dashboard (block group layer with pop-up configurations)
+- The Polling Location Finder (polling places layer with coverage statistics)
+- The Directional/Routing Application (map-centered GPS system returning time, distance, and directions between two given places)
+- The Walkability Isochrones Viewer (population centers layer with accessibility symbology)
+
+**Dependencies:** `pandas`, `geopandas`, `shapely`
+
+**Note:** This script is a bridge between the SQL-based analysis pipeline and the ArcGIS-based visualization deliverables. It should be run after executing the export queries in `useful_queries.sql` and before uploading the resulting GeoJSON files to ArcGIS Online. The input CSV files are expected in `/tmp/`, which is where the SQL `\copy` commands write them. Follow the same process and import/upload the polling_isochrones_all.geojson as a feature layer as well for the map content that deals with that layer/application. 
+
 ### SQL Scripts
 
 #### `create_tables.sql`
@@ -1309,7 +1429,7 @@ ORDER BY pct_change ASC;
 | Correlation Analysis | Statistical relationship between turnout and accessibility | Correlation coefficients (r) and sample size |
 | Walkability Demographics | Demographic breakdown by walkability category | Average % Black, % poverty, and % no vehicle per category |
 | Priority Areas | Block groups with high vulnerability and poor walkability | GEOIDs with demographic and distance metrics |
-| Export Query | Complete dataset for ArcGIS and Looker integration | All key metrics with WKT geometry for external tools |
+| Export Query | Complete dataset for ArcGIS and Data Studio integration | All key metrics with WKT geometry for external tools |
 
 **Key Insights Available:**
 
@@ -1331,19 +1451,32 @@ ORDER BY pct_change ASC;
 
 ---
 
-#### `dashboard_views.sql`
+### Google Apps Script
 
-> **Status: Work in Progress**
-> 
-> This script will contain views designed for real-time dashboard integration and monitoring of accessibility metrics.
+#### `refreshData.gs`
 
----
+**Purpose:** Automated hourly pipeline that fetches live data from the Supabase cloud database via the Edge Function REST API and populates a Google Sheet with one sheet per analytical view. This serves as the data cache for Google Data Studio reporting.
 
-#### `table_verification.sql`
+**Architecture:**
+```
+Supabase Edge Function (HTTPS)
+    ↓ POST request with view name
+Google Apps Script (Time Trigger: Every Hour)
+    ↓
+Google Sheets (One sheet per view, auto-refreshing)
+    ↓ (future)
+Google Data Studio
+```
 
-> **Status: Work in Progress**
-> 
-> This script will contain comprehensive data validation and integrity checks across all database tables.
+**Key Features:**
+
+- Queries 11 analytical views: `polling_coverage`, `turnout_accessibility_correlation`, `walkability_demographics`, `full_analysis`, `dashboard_summary`, `dashboard_turnout_timeline`, `distance_method_comparison`, `isochrone_vulnerability_coverage`, `sidewalk_equity_analysis`, `routing_outliers`, `distance_tier_demographics`
+- Service role key authentication for secure API access
+- Automatic column header generation from JSON response keys
+- Nested object flattening for Data Studio compatibility
+- Hourly time-based trigger for continuous data freshness
+
+**Dependencies:** Supabase Edge Function (`query`), Google Sheets, Google Apps Script time trigger
 
 ---
 
@@ -1469,6 +1602,118 @@ ORDER BY pct_change ASC;
 | File | Generating Script | Description |
 |------|-------------------|-------------|
 | `isochrones_enhanced.png` | `scripts/python/visual_preview.py` | Publication-quality map with 15-minute walking isochrones, population centers, and polling places on OpenStreetMap basemap. |
+| `isochrone_panel_r.png` | `scripts/r/isochrone_final.R` | Faceted five-panel figure showing 5/10/15/20/30-minute walking isochrones with polling places on basemap. |
+| `walking_distance_choropleth_r.png` | `scripts/r/choropleth_map.R` | Tract-level choropleth map colored by Google walking distance using viridis color scale. |
+| `vulnerability_bar_chart_r.png` | `scripts/r/vulnerability_bar_chart.R` | Bar chart comparing walking distances across vulnerability categories with standard deviation error bars. |
+| `correlation_heatmap_r.png` | `scripts/r/correlation_heatmap.R` | Clustered correlation heatmap with annotated coefficients and significance stars for all numeric variables. |
+
+---
+
+## Cloud Database & Live Dashboard Integration
+
+This project includes a fully automated cloud database pipeline built on Supabase (PostgreSQL). The local database was migrated to the cloud to enable live querying from any internet-connected tool without requiring the original development environment.
+
+### Architecture
+
+```
+Supabase PostgreSQL (Cloud)
+    ↓ Edge Function (REST API over HTTPS)
+Google Apps Script (Hourly Refresh via Time Trigger)
+    ↓
+Google Sheets (Data Cache - One Sheet Per View)
+    ↓
+Google Data Studio (Interactive Dashboard - Planned)
+```
+
+### Why This Pipeline Exists
+
+- **Network Restrictions:** Direct Data Studio-to-PostgreSQL connections are blocked on many university and institutional networks due to port blocking (5432, 6543)
+- **HTTPS Bypass:** Supabase's Edge Functions serve database queries over standard HTTPS (port 443), which is universally accessible
+- **Reliable Cache:** Google Sheets acts as a reliable intermediary that Data Studio can always reach
+- **Automation:** Hourly refresh via Apps Script time triggers ensures data stays current without manual intervention
+- **Scalability:** The pipeline can be reconfigured to point at new data sources or additional views without changing the front-end
+
+### Current Status
+
+| Component | Status |
+|-----------|--------|
+| Supabase Cloud Database | Deployed and populated with all tables and views |
+| Edge Function (`query`) | Deployed, tested, and serving data via HTTPS |
+| Google Apps Script | Deployed with hourly time trigger, creating one sheet per view |
+| Google Sheets | Populated with 11 analytical views, auto-refreshing hourly |
+| Data Studio Report | Planned for future development phase |
+
+---
+
+## Deployment Deliverables
+
+Three interactive applications were built for client delivery, integrating walking distance analysis, isochrone visualization, and street-level routing capabilities:
+
+### Montgomery County Voter Access Dashboard (ArcGIS Dashboard)
+
+A comprehensive monitoring dashboard featuring:
+- **Live indicator elements:** Total block groups, average walking distance, average walkability score, and walkability distribution percentages
+- **Interactive block group map:** Color-coded by accessibility category (Excellent to Very Poor) with pop-up details showing GEOID, demographics, walking distance, and nearest polling place for each of the 203 population centers
+- **Polling place coverage layer:** 49 polling locations with pop-ups showing address, average walking distance, population served, and number of centers assigned
+- **Walkability isochrones layer:** Time-sorted walkable area polygons (5/10/15/20/30 minutes) for visual assessment of coverage
+- **Demographic filters:** Dropdown selectors for vulnerability category and walkability category to focus on specific community subsets
+- **Legend and layer controls:** Toggle between population centers, polling places, and isochrone layers
+
+### Directional Routing Widget (ArcGIS Experience Builder, Embedded)
+
+An interactive routing tool embedded within the dashboard application that provides street-level directions from any user-specified address to nearby polling places. Features include:
+- **Address search bar:** Users enter any address as a starting point
+- **Multi-modal routing:** Supports walking time, walking distance, driving time, driving distance, trucking time, and trucking distance
+- **Route visualization:** Turn-by-turn directions displayed on the map with highlighted route path
+- **Polling place selection:** Users can click any locations as their destination
+- **Real-time distance calculation:** Displays precise walking/driving distance and estimated travel time (proper routing)
+- **Integration with accessibility data:** Polling place pop-ups show walkability scores and demographic context alongside routing information
+
+### Nearby Polling Location Finder (ArcGIS Instant Apps - Nearby Template, Embedded)
+
+A public-facing tool embedded within the dashboard application and built with the Nearby template that allows constituents to:
+- Enter/Click any address in Montgomery County map
+- See the closest polling places and population centers within a 0-5 mile radius (base value on distance slider starting at 2.5 miles)
+- Get walking and driving directions with distance and time estimates
+- View accessibility ratings for each nearby polling location
+- Filter results by travel mode (walking or driving)
+
+### Walkability Isochrones Viewer (ArcGIS Experience Builder, Embedded)
+
+An interactive application embedded within the dashboard that features:
+- **Time-sorted isochrone layer:** 245 walkable area polygons across 5 time intervals (5, 10, 15, 20, 30 minutes)
+- **Population center overlay:** 203 block group centroids colored by accessibility score, sized by population
+- **Directional/routing widget (embedded):** Users can search an address and get walking directions to any polling place directly within the isochrone viewer
+- **Layer visibility controls:** Toggle between time intervals to visualize how walkable coverage expands
+
+---
+
+## Additional Analytical Views
+
+Beyond the first few core views documented in `create_views.sql`, I decided to add more to the same script and place them within the cloud database. This includes specialized views for equity analysis, infrastructure assessment, and dashboard integration:
+
+| View | Purpose | Key Metrics |
+|------|---------|-------------|
+| `distance_method_comparison` | Side-by-side comparison of all five distance calculation methods for each block group | Euclidean, Manhattan, OSRM driving, OSRM walking, Google walking distances with cross-comparison ratios |
+| `isochrone_vulnerability_coverage` | Walkable area coverage metrics joined with demographic vulnerability data | Polling place name, time interval, area served, population covered, vulnerability category, average demographics |
+| `sidewalk_equity_analysis` | Quantifies how sidewalk infrastructure varies across vulnerability categories | Block groups per category, blocks with sidewalks, average sidewalk coverage percentage, average walkability score |
+| `routing_outliers` | Identifies block groups where pedestrian routes are significantly longer than straight-line distances | Google/Euclidean ratio, routing quality classification (Severe detour/Moderate detour/Direct route/Normal), sidewalk presence |
+| `distance_tier_demographics` | Buckets block groups by walking distance and shows demographic composition for each tier | Distance tier (Under 0.5 mi to Over 5 mi), block group count, total population, average demographics |
+| `dashboard_summary` | Single-row summary for executive dashboards | Total block groups, total population, total polling places, matched precincts, average walking distance, average walkability score |
+| `dashboard_turnout_timeline` | Turnout data formatted for line charts and scatter plots | Precinct name, 2020 votes, 2024 votes, vote change, percentage change, walking distance, walkability score |
+
+### Cross-Comparison Ratios
+
+Between the five distance calculation methods, cross-comparison ratios provide insight into routing efficiency:
+
+| Ratio | Formula | Average | Interpretation |
+|-------|---------|---------|----------------|
+| Driving / Euclidean | network ÷ straight-line | 0.86x | Driving routes are ~14% shorter than straight-line |
+| Walking / Euclidean | OSRM walking ÷ straight-line | 0.84x | Pedestrian routes are ~16% shorter than straight-line |
+| Google / OSRM Walking | Google ÷ OSRM | 1.19x | Google estimates ~19% longer walking distances |
+| Walking / Driving | OSRM walking ÷ driving | 0.97x | Pedestrian routes nearly match driving routes |
+
+**Note:** The `priority_areas` view and a now deleted `dashboard_priority_map` view return zero rows. This is a legitimate finding: no block groups in Montgomery County simultaneously meet the criteria for both high vulnerability AND poor/very poor walkability. High-vulnerability areas actually have shorter walking distances and better walkability, as confirmed by the regression analysis.
 
 ---
 
@@ -1512,12 +1757,12 @@ ORDER BY pct_change ASC;
 | OSRM (Driving) | URL: `http://localhost:5001` | `scripts/python/network_distance_calculations.py` |
 | OSRM (Walking) | URL: `http://localhost:5002` | `scripts/python/network_walking_distance_calculations.py` |
 | Valhalla | URL: `http://localhost:8002` | `scripts/python/generate_polling_isochrones.py` |
-| PostgreSQL | Connection string | `scripts/sql/create_tables.sql` |
+| PostgreSQL (Local) | Connection string | `scripts/sql/create_tables.sql` |
+| Supabase (Cloud) | Connection string | Google Apps Script, Google Data Studio |
+| ArcGIS Online | Feature layers, web maps | Dashboard and Instant Apps |
 
 ---
 
 ## License
 
 This project is produced for the Southern Poverty Law Center (SPLC) as a capstone project. All rights reserved.
-
----

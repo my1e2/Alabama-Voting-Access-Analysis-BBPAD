@@ -164,3 +164,132 @@ select
 from accessibility_scores a
 left join demographics_tract_clean d on substring(a.geoid, 1, 11) = d.geoid
 left join vulnerability_index_tract v on substring(a.geoid, 1, 11) = v.geoid;
+
+create or replace view distance_method_comparison as
+select 
+    a.geoid,
+    pc.population,
+    a.min_dist_to_poll_miles as euclidean_miles,
+    a.min_manhattan_dist_miles as manhattan_miles,
+    a.min_network_dist_miles as osrm_driving_miles,
+    a.min_walking_dist_miles as osrm_walking_miles,
+    a.min_google_walking_dist_miles as google_walking_miles,
+    a.driving_to_euclidean_ratio,
+    a.google_walking_to_euclidean_ratio,
+    a.osrm_walking_to_driving_ratio,
+    a.google_to_osrm_walking_ratio
+from accessibility_scores a
+join population_centers pc on a.geoid = pc.geoid
+where a.min_google_walking_dist_miles is not null
+order by a.min_google_walking_dist_miles desc;
+
+create or replace view isochrone_vulnerability_coverage as
+select 
+    i.polling_place_name,
+    i.time_minutes,
+    i.area_sq_miles,
+    i.population_served,
+    p.latitude as poll_lat,
+    p.longitude as poll_lon,
+    v.vulnerability_category,
+    count(distinct pc.geoid) as nearby_block_groups,
+    round(avg(d.pct_black)::numeric, 1) as avg_pct_black,
+    round(avg(d.pct_poverty)::numeric, 1) as avg_pct_poverty
+from isochrone_summary i
+join polling_places p on i.polling_place_name = p.precinct
+left join population_centers pc on st_dwithin(
+    pc.geom, 
+    st_setsrid(st_makepoint(p.longitude, p.latitude), 4326), 
+    0.02
+)
+left join demographics_bg d on pc.geoid = d.geoid
+left join vulnerability_index v on pc.geoid = v.geoid
+group by i.polling_place_name, i.time_minutes, i.area_sq_miles, 
+         i.population_served, p.latitude, p.longitude, v.vulnerability_category
+order by i.time_minutes, i.area_sq_miles desc;
+
+create or replace view sidewalk_equity_analysis as
+select 
+    v.vulnerability_category,
+    count(*) as block_groups,
+    sum(case when a.osm_has_sidewalk then 1 else 0 end) as blocks_with_sidewalks,
+    round(avg(a.osm_sidewalk_pct)::numeric, 1) as avg_sidewalk_coverage_pct,
+    round(avg(a.osm_sidewalk_count)::numeric, 0) as avg_sidewalk_segments,
+    round(avg(a.walkability_score)::numeric, 1) as avg_walkability_score,
+    round(avg(a.min_google_walking_dist_miles)::numeric, 2) as avg_walking_distance
+from accessibility_scores a
+join population_centers pc on a.geoid = pc.geoid
+join vulnerability_index v on a.geoid = v.geoid
+group by v.vulnerability_category
+order by v.vulnerability_category;
+
+create or replace view routing_outliers as
+select 
+    a.geoid,
+    pc.population,
+    a.min_dist_to_poll_miles as euclidean_miles,
+    a.min_google_walking_dist_miles as google_walking_miles,
+    a.google_walking_to_euclidean_ratio,
+    case 
+        when a.google_walking_to_euclidean_ratio > 2.0 then 'Severe detour'
+        when a.google_walking_to_euclidean_ratio > 1.5 then 'Moderate detour'
+        when a.google_walking_to_euclidean_ratio < 0.8 then 'Direct route'
+        else 'Normal'
+    end as routing_quality,
+    d.pct_black,
+    d.pct_poverty,
+    a.osm_has_sidewalk,
+    a.osm_sidewalk_pct
+from accessibility_scores a
+join population_centers pc on a.geoid = pc.geoid
+join demographics_bg d on a.geoid = d.geoid
+where a.min_google_walking_dist_miles is not null
+  and a.google_walking_to_euclidean_ratio > 1.5
+order by a.google_walking_to_euclidean_ratio desc;
+
+create or replace view distance_tier_demographics as
+select 
+    case 
+        when a.min_google_walking_dist_miles < 0.5 then 'Under 0.5 miles'
+        when a.min_google_walking_dist_miles < 1.0 then '0.5-1.0 miles'
+        when a.min_google_walking_dist_miles < 2.0 then '1.0-2.0 miles'
+        when a.min_google_walking_dist_miles < 5.0 then '2.0-5.0 miles'
+        else 'Over 5 miles'
+    end as distance_tier,
+    count(*) as block_groups,
+    sum(pc.population) as total_population,
+    round(avg(d.pct_black)::numeric, 1) as avg_pct_black,
+    round(avg(d.pct_poverty)::numeric, 1) as avg_pct_poverty,
+    round(avg(d.pct_no_vehicle)::numeric, 1) as avg_pct_no_vehicle,
+    count(case when v.vulnerability_category = 'High' then 1 end) as high_vulnerability_count
+from accessibility_scores a
+join population_centers pc on a.geoid = pc.geoid
+join demographics_bg d on a.geoid = d.geoid
+join vulnerability_index v on a.geoid = v.geoid
+where a.min_google_walking_dist_miles is not null
+group by distance_tier
+order by min(a.min_google_walking_dist_miles);
+
+-- summary statistics for dashboard landing page
+create or replace view dashboard_summary as
+select 
+    (select count(*) from population_centers) as total_block_groups,
+    (select sum(population) from population_centers) as total_population,
+    (select count(*) from polling_places) as total_polling_places,
+    (select count(*) from turnout_comparison) as matched_precincts,
+    (select round(avg(min_google_walking_dist_miles)::numeric, 2) 
+     from accessibility_scores) as avg_walking_miles,
+    (select round(avg(walkability_score)::numeric, 1) 
+     from accessibility_scores) as avg_walkability_score;
+
+-- time-series turnout data for line charts
+create or replace view dashboard_turnout_timeline as
+select 
+    precinct_name,
+    votes_2020,
+    votes_2024,
+    vote_change,
+    pct_change,
+    avg_walking_miles,
+    avg_walkability_score
+from turnout_accessibility_correlation;
